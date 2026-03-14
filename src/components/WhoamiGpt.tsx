@@ -301,7 +301,6 @@ console.log("Awaiting specific instructions...");
 
        logBoth(`[SWARM_CORE] Quantum Swarm processing engaged.`, 'info');
        
-       // Use whoamisecGptChat instead of a rigid prompt to keep the personality
        const response = await whoamisecGptChat(
          `EXECUTE TASK WITH FULL AUTONOMY. 
          STYLE: "Manus GPT AI" (Think step-by-step, brief explanations, then precise execution).
