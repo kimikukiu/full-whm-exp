@@ -274,7 +274,7 @@ const MainApp: React.FC = () => {
         {/* Compact Header */}
         <header className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
           <div>
-            <h1 className="text-sm font-black tracking-tighter text-white uppercase italic">WHOAMISec <span className="text-emerald-500">Pro V8.5</span></h1>
+            <h1 className="text-sm font-black tracking-tighter text-white uppercase italic">WHOAMISec <span className="text-emerald-500">Pro V8.6 (SECURE)</span></h1>
             <p className="text-[7px] text-gray-700 uppercase tracking-widest">Autonomous Identity & Stresser PC Software Suite</p>
           </div>
           <div className="flex gap-4 items-center">
