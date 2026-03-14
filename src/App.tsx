@@ -57,6 +57,18 @@ const STRATEGIES = {
 };
 
 const MainApp: React.FC = () => {
+  const [isAdmin, setIsAdmin] = useLocalStorage('app_isAdmin', false);
+  const [authInput, setAuthInput] = useState('');
+  
+  const handleAuth = () => {
+    if (authInput === '#AGLegends_Whoamisec#Hex4gon1_3301@#!') {
+      setIsAdmin(true);
+      addLog('AUTH_SUCCESS: Admin privileges granted. Welcome, Commander.', 'success');
+    } else {
+      addLog('AUTH_FAIL: Invalid credentials. Access denied.', 'error');
+    }
+  };
+
   const [activeTab, setActiveTab] = useLocalStorage<AppTab>('app_activeTab', AppTab.DASHBOARD);
   const [targetInput, setTargetInput] = useLocalStorage('app_targetInput', '');
   const [isScanning, setIsScanning] = useLocalStorage('app_isScanning', false);
@@ -226,6 +238,34 @@ const MainApp: React.FC = () => {
     setActiveTab(AppTab.DASHBOARD);
   }, []);
 
+  if (!isAdmin) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-black text-emerald-500 font-mono">
+        <div className="border border-emerald-900 p-8 rounded-lg shadow-[0_0_50px_rgba(16,185,129,0.1)] max-w-md w-full">
+          <h1 className="text-2xl font-black mb-6 text-center tracking-widest animate-pulse">WHOAMISEC ACCESS CONTROL</h1>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs uppercase tracking-widest mb-2 text-gray-500">Secure Passphrase</label>
+              <input 
+                type="password" 
+                value={authInput} 
+                onChange={(e) => setAuthInput(e.target.value)}
+                className="w-full bg-black border border-emerald-900/50 p-3 rounded text-center text-white focus:border-emerald-500 outline-none transition-all"
+                placeholder="••••••••••••••••"
+              />
+            </div>
+            <button 
+              onClick={handleAuth}
+              className="w-full bg-emerald-900/20 border border-emerald-500/50 text-emerald-500 py-3 rounded font-black hover:bg-emerald-500 hover:text-black transition-all uppercase tracking-widest"
+            >
+              Authenticate
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#000] text-[#e2e8f0] font-mono text-[10px] antialiased">
       <Sidebar activeTab={activeTab} setActiveTab={handleSetActiveTab} target={targetInput || "NULL"} isUp={isTargetUp} isAttacking={isAttacking} />
@@ -246,6 +286,9 @@ const MainApp: React.FC = () => {
                 <span className="text-[6px] text-gray-700 uppercase block leading-none">Throughput Peak</span>
                 <span className={`font-black ${isAttacking ? 'text-fuchsia-500' : 'text-gray-900'}`}>{isAttacking ? attackStats.throughput + ' Tbps' : '0.0 Tbps'}</span>
              </div>
+             <button onClick={() => setIsAdmin(false)} className="text-red-500 hover:text-red-400 text-xs ml-4" title="Logout">
+               <i className="fas fa-sign-out-alt"></i>
+             </button>
           </div>
         </header>
 
