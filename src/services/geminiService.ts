@@ -3,6 +3,7 @@ import { GoogleGenAI, Type, Modality, HarmCategory, HarmBlockThreshold, Generate
 import { OSINTResult } from "../types";
 import axios from "axios";
 import { AITaskQueue } from "./aiTaskQueue";
+import { openRouterService } from "./openRouterService";
 
 const getAi = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 const taskQueue = new AITaskQueue(process.env.GEMINI_API_KEY || "");
@@ -214,6 +215,17 @@ export const queryAgentStream = async (agentRole: string, task: string, globalCo
 export const queryAgent = async (agentRole: string, task: string, globalContext: string) => {
   try {
     const prompt = `ROLE: ${agentRole}\nTASK: ${task}\nCONTEXT: ${globalContext}`;
+    
+    // Try OpenRouter first for advanced reasoning if key is available
+    if (process.env.OPENROUTER_API_KEY || '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') {
+        try {
+            const response = await openRouterService.chat(prompt, globalContext);
+            if (response) return response;
+        } catch (orError) {
+            console.warn("OpenRouter failed, falling back to Gemini...", orError);
+        }
+    }
+
     return await taskQueue.executeTask(agentRole, prompt);
   } catch (error) {
     console.warn(`Agent ${agentRole} Error, falling back to Z.AI...`, error);
@@ -269,6 +281,17 @@ const zAiFallbackChat = async (message: string, context: string, role: string): 
 export const whoamisecGptChat = async (message: string, context: string = '', role: string = 'ORCHESTRATOR') => {
   try {
     const fullPrompt = `ROLE: ${role}\nCONTEXT: ${context}\n\nUSER_MESSAGE: ${message}`;
+    
+    // Try OpenRouter first for superior coding capabilities
+    if (process.env.OPENROUTER_API_KEY || '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') {
+         try {
+            const response = await openRouterService.chat(message, context, 'openai/gpt-4o'); // Use high-end model for code
+            if (response) return response;
+        } catch (orError) {
+             console.warn("OpenRouter failed for GPT Chat, falling back to Gemini...", orError);
+        }
+    }
+    
     return await taskQueue.executeTask("WHOAMISEC GPT", fullPrompt);
   } catch (error: any) {
     console.warn("WHOAMISEC GPT Error, falling back to Z.AI...", error);
