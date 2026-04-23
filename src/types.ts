@@ -124,7 +124,8 @@ export enum AppTab {
   QUANTUM_INTELLIGENCE = 'QUANTUM_INTELLIGENCE',
   ZXCDDOS = 'ZXCDDOS',
   IDE_TOOL = 'IDE_TOOL'
-}
+
+  AUTO_POST = 'auto_post',}
 
 export interface TelegramConfig {
   botToken: string;
