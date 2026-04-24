@@ -1,3 +1,30 @@
+# full-whm-exp
+
+[![Deploy to Fly.io](https://fly.io/button.svg)](https://fly.io/apps/launch?repository=https%3A%2F%2Fgithub.com%2Fkimikukiu%2Ffull-whm-exp)
+
+## Deployment
+
+This project is configured for Fly.io deployment.
+
+### Quick Deploy
+
+Click the button above or visit:
+```
+https://fly.io/apps/launch?repository=https%3A%2F%2Fgithub.com%2Fkimikukiu%2Ffull-whm-exp
+```
+
+### Manual Deploy
+
+```bash
+flyctl launch --from=https://github.com/kimikukiu/full-whm-exp
+```
+
+## Configuration
+
+- `fly.toml` - Fly.io configuration
+- `server.js` - Static file server
+- Expected URL: `https://full-whm-exp.fly.dev`
+
 <div align="center">
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
@@ -30,4 +57,3 @@ View your app in AI Studio: https://ai.studio/apps/eb64c5c7-156f-4af1-a6ba-c35ad
 - ✅ **
 
 **AGL.ai is the hub** - all social media auto-posting happens here.
-
